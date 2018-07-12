@@ -34,13 +34,13 @@ if (cluster.isMaster) {
     const answer = publicKey.slice(2, target.length + 2)
     
     if (answer === target) {
-      const result = publicKey + '\n' + privateKey + '\n'
-      fs.appendFile('result.txt', result, () => {})
-      console.log(result)
       notAchieved = false
+      const result = publicKey + '\n' + privateKey + '\n'
+      console.log(result)
+      fs.appendFile('result.txt', result, () => {
+        process.exit()
+      })
     }
   }
-
-  process.exit()
 
 }
