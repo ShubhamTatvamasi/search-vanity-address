@@ -5,7 +5,7 @@ const EthereumUtil = require('ethereumjs-util')
 const EthereumWallet = require('ethereumjs-wallet')
 
 const target = '123'
-let notAchieved = true
+let achieved = false
 
 if (cluster.isMaster) {
 
@@ -23,7 +23,7 @@ if (cluster.isMaster) {
 
   console.log(`Worker ${process.pid} started`)
   
-  while (notAchieved) {
+  while (!achieved) {
       
     const wallet = EthereumWallet.generate()
     const publicKeyBuff = EthereumUtil.privateToAddress(wallet.privKey)
@@ -34,7 +34,7 @@ if (cluster.isMaster) {
     const answer = publicKey.slice(2, target.length + 2)
     
     if (answer === target) {
-      notAchieved = false
+      achieved = true
       const result = publicKey + '\n' + privateKey + '\n'
       console.log(result)
       fs.appendFile('result.txt', result, () => {
